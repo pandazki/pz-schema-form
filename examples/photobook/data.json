@@ -1,0 +1,22 @@
+{
+  "editorType": "PHOTO_BOOK",
+  "canUseMP": false,
+  "c": {
+    "editable": true
+  },
+  "j": {
+    "own": false
+  },
+  "bc": {
+    "editable": true
+  },
+  "ep": {
+    "color": "#ffffff"
+  },
+  "s": {
+    "basePieces": 28,
+    "baseThickness": 9,
+    "piecesStep": 4,
+    "thicknessStep": 0.5
+  }
+}

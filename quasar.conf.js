@@ -43,7 +43,15 @@ module.exports = function(ctx) {
         "QItem",
         "QItemSection",
         "QItemLabel",
-        "QSplitter"
+        "QSplitter",
+        "QExpansionItem",
+        "QSeparator",
+        "QInput",
+        "QToggle",
+        "QMenu",
+        "QColor",
+        "QPopupProxy",
+        "QField"
       ],
 
       directives: ["Ripple"],
@@ -86,7 +94,7 @@ module.exports = function(ctx) {
     },
 
     // animations: 'all', // --- includes all animations
-    animations: [],
+    animations: "all",
 
     ssr: {
       pwa: false

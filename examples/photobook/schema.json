@@ -1,0 +1,163 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://niepce.cloud/definition/photobook/jingzhuang.json",
+  "type": "object",
+  "title": "精装照片书配置",
+  "required": [
+    "editorType",
+    "canUseMP",
+    "c",
+    "j",
+    "bc",
+    "ep",
+    "s"
+  ],
+  "properties": {
+    "editorType": {
+      "$id": "#/properties/editorType",
+      "type": "string",
+      "title": "编辑器类型",
+      "default": "PHOTO_BOOK",
+      "examples": [
+        "PHOTO_BOOK"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "canUseMP": {
+      "$id": "#/properties/canUseMP",
+      "type": "boolean",
+      "title": "是否支持跨页",
+      "default": false,
+      "examples": [
+        false
+      ]
+    },
+    "c": {
+      "$id": "#/properties/c",
+      "type": "object",
+      "title": "封面部分配置",
+      "required": [
+        "editable"
+      ],
+      "properties": {
+        "editable": {
+          "$id": "#/properties/c/properties/editable",
+          "type": "boolean",
+          "title": "是否可以编辑",
+          "default": false,
+          "examples": [
+            true
+          ]
+        }
+      }
+    },
+    "j": {
+      "$id": "#/properties/j",
+      "type": "object",
+      "title": "护封部分",
+      "required": [
+        "own"
+      ],
+      "properties": {
+        "own": {
+          "$id": "#/properties/j/properties/own",
+          "type": "boolean",
+          "title": "是否包含护封",
+          "default": false,
+          "examples": [
+            false
+          ]
+        }
+      }
+    },
+    "bc": {
+      "$id": "#/properties/bc",
+      "type": "object",
+      "title": "封底部分",
+      "required": [
+        "editable"
+      ],
+      "properties": {
+        "editable": {
+          "$id": "#/properties/bc/properties/editable",
+          "type": "boolean",
+          "title": "是否可以编辑",
+          "default": false,
+          "examples": [
+            true
+          ]
+        }
+      }
+    },
+    "ep": {
+      "$id": "#/properties/ep",
+      "type": "object",
+      "title": "环衬部分",
+      "required": [
+        "color"
+      ],
+      "properties": {
+        "color": {
+          "$id": "#/properties/ep/properties/color",
+          "type": "string",
+          "title": "环衬颜色",
+          "default": "",
+          "examples": [
+            "#ffffff"
+          ],
+          "pattern": "^(.*)$"
+        }
+      }
+    },
+    "s": {
+      "$id": "#/properties/s",
+      "type": "object",
+      "title": "书脊配置",
+      "required": [
+        "basePieces",
+        "baseThickness",
+        "piecesStep",
+        "thicknessStep"
+      ],
+      "properties": {
+        "basePieces": {
+          "$id": "#/properties/s/properties/basePieces",
+          "type": "integer",
+          "title": "小于该页数时使用最小厚度",
+          "default": 0,
+          "examples": [
+            28
+          ]
+        },
+        "baseThickness": {
+          "$id": "#/properties/s/properties/baseThickness",
+          "type": "integer",
+          "title": "最小厚度（毫米）",
+          "default": 0,
+          "examples": [
+            9
+          ]
+        },
+        "piecesStep": {
+          "$id": "#/properties/s/properties/piecesStep",
+          "type": "integer",
+          "title": "加页步进",
+          "default": 4,
+          "examples": [
+            4
+          ]
+        },
+        "thicknessStep": {
+          "$id": "#/properties/s/properties/thicknessStep",
+          "type": "number",
+          "title": "加厚步进（毫米）",
+          "default": 0,
+          "examples": [
+            0.5
+          ]
+        }
+      }
+    }
+  }
+}
