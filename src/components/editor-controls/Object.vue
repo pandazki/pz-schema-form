@@ -53,6 +53,7 @@ import objectMixin from "./objectMixin";
 
 export default {
   name: "editor-control-object",
+  displayName: "Object",
   mixins: [objectMixin],
   data() {
     return {};

@@ -2,7 +2,8 @@
   <q-input :label="schema.title" v-model="val" :hint="desc">
     <template v-slot:prepend>
       <q-icon
-        name="colorize"
+        name="crop_free"
+        color="grey-11"
         class="cursor-pointer"
         :style="{ 'background-color': val }"
       >
@@ -19,6 +20,7 @@ import valueMixin from "./valueMixin";
 
 export default {
   name: "editor-control-color",
+  displayName: "Color Picker",
   mixins: [valueMixin],
   data() {
     return {

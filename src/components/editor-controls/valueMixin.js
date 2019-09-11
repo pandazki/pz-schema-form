@@ -18,6 +18,20 @@ const mixin = {
           this.val = val;
         } else if (val !== undefined) {
           console.warn(`unsupported data: ${val}`);
+        } else {
+          // undefined 表示被新增的空字段，填上默认值
+          switch (this.schema.type) {
+            case "string":
+              this.val = "";
+              break;
+            case "number":
+            case "integer":
+              this.val = 0;
+              break;
+            case "boolean":
+              this.val = false;
+              break;
+          }
         }
       },
       immediate: true

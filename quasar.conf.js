@@ -54,7 +54,7 @@ module.exports = function(ctx) {
         "QField"
       ],
 
-      directives: ["Ripple"],
+      directives: ["Ripple", "ClosePopup"],
 
       // Quasar plugins
       plugins: ["Notify"]

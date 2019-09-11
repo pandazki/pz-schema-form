@@ -12,6 +12,7 @@ import valueMixin from "./valueMixin";
 
 export default {
   name: "editor-control-number",
+  displayName: "Number Input",
   mixins: [valueMixin],
   data() {
     return {};

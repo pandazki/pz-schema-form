@@ -11,6 +11,7 @@ import valueMixin from "./valueMixin";
 
 export default {
   name: "editor-control-boolean",
+  displayName: "Toggle",
   mixins: [valueMixin],
   data() {
     return {};

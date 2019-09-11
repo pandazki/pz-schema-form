@@ -3,7 +3,37 @@
     class="relative-position"
     @mouseover="hover = true"
     @mouseleave="hover = false"
+    @contextmenu.prevent.stop
   >
+    <q-menu touch-position context-menu>
+      <q-list dense style="min-width: 100px">
+        <q-item clickable>
+          <q-item-section>指定组件</q-item-section>
+          <q-item-section side>
+            <q-icon name="keyboard_arrow_right" />
+          </q-item-section>
+
+          <q-menu auto-close anchor="top right" self="top left">
+            <q-list>
+              <q-item v-for="c in validControls" :key="c.name" dense clickable>
+                <q-item-section @click="changeControl(c.name)">
+                  <div class="row no-wrap">
+                    <div class="col-2" style="min-width:20px">
+                      <q-icon v-if="c.name == controlName" name="check" />
+                    </div>
+                    <div class="col-auto">{{ c.displayName }}</div>
+                  </div>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-item>
+        <q-separator />
+        <q-item clickable v-close-popup>
+          <q-item-section>关闭菜单</q-item-section>
+        </q-item>
+      </q-list>
+    </q-menu>
     <component
       ref="control"
       :is="control"
@@ -12,7 +42,8 @@
       :itemKey="itemKey"
       :required="required"
       :path="path || [itemKey]"
-    ></component>
+    >
+    </component>
     <transition
       appear
       enter-active-class="animated fadeIn"
@@ -116,8 +147,10 @@ export default {
     return {
       editing: undefined,
       controls: [],
+      validControls: [],
       controlDict: {},
-      control: null,
+      // control: null,
+      controlName: "",
       dialog: false,
 
       // view
@@ -152,6 +185,11 @@ export default {
     }
   },
   computed: {
+    control() {
+      return (
+        this.controlDict[this.controlName] || this.$options.components.RawJSON
+      );
+    },
     removable() {
       return (
         this.path && // 第一级元素不能删除
@@ -163,22 +201,43 @@ export default {
   },
   methods: {
     detectControl(val) {
+      this.validControls = this.controls.filter(
+        c =>
+          c.isSuitable(val, this.path || [this.itemKey]) ||
+          c.name === val.controlName
+      );
+      // 优先级 0：不存在 schema 或 指定了 RawJSON 时，强制使用 RawJSON
       if (!val || this.forceRaw) {
-        this.control = this.$options.components.RawJSON;
+        this.controlName = this.$options.components.RawJSON.name;
         return;
       }
+      // 优先级 1：当 schema 中指定了控件，并且控件被加载，则使用
       if (val.controlName && this.controlDict[val.controlName]) {
-        this.control = this.controlDict[val.controlName];
+        this.controlName = val.controlName;
         return;
       }
 
-      for (const c of this.controls) {
-        if (c.isSuitable(val, this.path || [this.itemKey])) {
-          this.control = c;
-          break;
-        } else this.control = null;
+      if (this.validControls.length > 0) {
+        console.log(this.validControls[0].name);
+        this.controlName = this.validControls[0].name;
       }
-      if (!this.control) this.control = this.$options.components.RawJSON;
+      if (!this.controlName)
+        this.controlName = this.$options.components.RawJSON.name;
+    },
+    changeControl(controlName) {
+      if (controlName === this.controlName) return;
+      try {
+        this.$refs.control.validate();
+        this.editing = this.$refs.control.getJSON();
+        this.controlName = controlName;
+      } catch (error) {
+        console.warn(error);
+        this.$q.notify({
+          message: "该节点数据无效，切换控件将会导致数据丢失，请先填写有效数据",
+          position: "top",
+          timeout: 3000
+        });
+      }
     },
     async validate() {
       if (this.$refs.control.validate) await this.$refs.control.validate();

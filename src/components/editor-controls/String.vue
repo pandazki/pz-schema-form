@@ -7,6 +7,7 @@ import valueMixin from "./valueMixin";
 
 export default {
   name: "editor-control-string",
+  displayName: "String Input",
   mixins: [valueMixin],
   data() {
     return {};

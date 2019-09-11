@@ -37,6 +37,7 @@ import arrayMixin from "./arrayMixin";
 
 export default {
   name: "editor-control-array",
+  displayName: "List",
   mixins: [arrayMixin],
   data() {
     return {};
