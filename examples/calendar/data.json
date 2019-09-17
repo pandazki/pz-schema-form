@@ -1,0 +1,21 @@
+{
+  "editorType": "CALENDAR",
+  "printConfig": {
+    "targets": [
+      {
+        "name": "日历-相片",
+        "renderPath": "/calendar/photo",
+        "fileType": "pdf",
+        "bleed": {
+          "total": 0,
+          "layoutBleed": 3,
+          "useLayoutBleed": false
+        }
+      },
+      {
+        "name": "日历-功能页",
+        "url": "https://app-cdn.niepce.cloud/static/%E6%97%A5%E5%8E%86-21%2A15-%E5%8A%9F%E8%83%BD%E9%A1%B5.pdf"
+      }
+    ]
+  }
+}

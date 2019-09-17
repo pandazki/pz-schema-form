@@ -3,7 +3,7 @@
     <div class="q-ma-sm col-auto">{{ schema.title }}</div>
     <MonacoEditor
       class="col-grow"
-      style="min-height:100px"
+      style="min-height:480px"
       v-model="jsonCode"
       language="json"
       theme="vs-dark"
@@ -52,7 +52,7 @@ export default {
         // eslint-disable-next-line no-empty
       } catch (error) {}
 
-      await this.schemaValidate(jsonObj, this.itemKey);
+      await this.schemaValidate(jsonObj);
     },
     getJSON() {
       if (!this.jsonCode) return undefined;

@@ -51,7 +51,8 @@ module.exports = function(ctx) {
         "QMenu",
         "QColor",
         "QPopupProxy",
-        "QField"
+        "QField",
+        "QSelect"
       ],
 
       directives: ["Ripple", "ClosePopup"],

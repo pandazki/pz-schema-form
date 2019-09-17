@@ -1,9 +1,9 @@
 <template>
   <q-expansion-item
     expand-separator
-    :label="schema.title"
+    :label="`📦 ${schema.title}`"
     :caption="desc"
-    :default-opened="true"
+    :default-opened="path.length < 3"
   >
     <div class="row">
       <div class="col-auto q-mr-sm">
@@ -26,11 +26,7 @@
           :path="path.concat(fieldName)"
           @remove="removeField(fieldName)"
         />
-        <q-btn
-          v-if="unusedFields.length > 0"
-          class="q-my-xs"
-          label="添加其他属性"
-        >
+        <q-btn v-if="unusedFields.length > 0" class="q-my-xs" label="添加属性">
           <q-menu fit auto-close>
             <template v-for="keyText in mapKeyToKeyText(unusedFields)">
               <q-item

@@ -1,5 +1,5 @@
 <template>
-  <q-field :label="schema.title" stack-label :hint="desc">
+  <q-field filled :label="schema.title" stack-label :hint="desc">
     <template v-slot:control>
       <q-toggle class="full-width" v-model="val" color="primary" />
     </template>

@@ -1,7 +1,7 @@
 <template>
   <q-expansion-item
     expand-separator
-    :label="schema.title"
+    :label="`📃 ${schema.title} [${form.length}]`"
     :caption="desc"
     :default-opened="true"
   >
@@ -25,7 +25,7 @@
           @remove="removeItem(index)"
         />
         <template v-if="!schema.maxItems || this.form.length < schema.maxItems">
-          <q-btn class="q-my-xs" @click="addItem" label="添加元素"></q-btn>
+          <q-btn class="q-my-xs" @click="addItem" label="添加列表项"></q-btn>
         </template>
       </div>
     </div>

@@ -7,6 +7,10 @@
   >
     <q-menu touch-position context-menu>
       <q-list dense style="min-width: 100px">
+        <q-item v-if="itemKey !== undefined">
+          <q-item-section>{{ "Key: " + itemKey }}</q-item-section>
+        </q-item>
+        <q-separator />
         <q-item clickable>
           <q-item-section>指定组件</q-item-section>
           <q-item-section side>
@@ -104,6 +108,7 @@ export default {
     // this.$options.components.Switch = require("./Switch.vue").default;
     // this.$options.components.Radio = require("./Radio.vue").default;
     // this.$options.components.SelectString = require("./SelectString.vue").default;
+    this.$options.components.Select = require("./Select.vue").default;
     // this.$options.components.SelectNumber = require("./SelectNumber.vue").default;
     // this.$options.components.Slider = require("./Slider.vue").default;
     this.$options.components.Object = require("./Object.vue").default;
@@ -129,7 +134,7 @@ export default {
       this.$options.components.Array,
       // // 基础类型
       // this.$options.components.Radio,
-      // this.$options.components.SelectString,
+      this.$options.components.Select,
       this.$options.components.String,
       // this.$options.components.SelectNumber,
       // this.$options.components.Slider,
@@ -218,16 +223,15 @@ export default {
       }
 
       if (this.validControls.length > 0) {
-        console.log(this.validControls[0].name);
         this.controlName = this.validControls[0].name;
       }
       if (!this.controlName)
         this.controlName = this.$options.components.RawJSON.name;
     },
-    changeControl(controlName) {
+    async changeControl(controlName) {
       if (controlName === this.controlName) return;
       try {
-        this.$refs.control.validate();
+        await this.$refs.control.validate();
         this.editing = this.$refs.control.getJSON();
         this.controlName = controlName;
       } catch (error) {

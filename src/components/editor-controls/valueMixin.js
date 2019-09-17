@@ -40,7 +40,7 @@ const mixin = {
   methods: {
     async validate() {
       // 直接使用 ajv 校验
-      await this.schemaValidate(this.val, this.itemKey);
+      await this.schemaValidate(this.val);
     },
     getJSON() {
       return this.val;

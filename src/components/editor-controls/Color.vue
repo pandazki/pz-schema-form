@@ -1,5 +1,5 @@
 <template>
-  <q-input :label="schema.title" v-model="val" :hint="desc">
+  <q-input filled :label="schema.title" v-model="val" :hint="desc">
     <template v-slot:prepend>
       <q-icon
         name="crop_free"
@@ -38,7 +38,7 @@ export default {
   },
   isSuitable(schema) {
     // 特殊的处理器尽可能的严格，减少错误的自动适配，如果有需要可以在 schema 中指定 controlName 强制使用
-    if (schema.type === "string" && schema.pattern === "^(#[0-9a-fA-f]{6})$") {
+    if (schema.type === "string" && schema.pattern === "^#[0-9a-fA-F]{6}$") {
       return true;
     }
   },

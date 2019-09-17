@@ -88,7 +88,7 @@ const mixin = {
       for (const c of this.$refs["controls"] || []) {
         await c.validate();
       }
-      await this.schemaValidate(this.getJSON(), this.itemKey);
+      await this.schemaValidate(this.getJSON());
     },
     getJSON() {
       let v = {};

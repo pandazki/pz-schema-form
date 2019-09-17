@@ -1,14 +1,23 @@
 <template>
-  <q-input v-model="val" :label="schema.title" :hint="desc" />
+  <q-input
+    filled
+    v-model="val"
+    :label="schema.title"
+    :hint="desc"
+    @input="validate"
+    :error-message="errorMsg"
+    :error="errorMsg !== undefined"
+  />
 </template>
 
 <script>
 import valueMixin from "./valueMixin";
+import formItemMixin from "./formItemMixin";
 
 export default {
   name: "editor-control-string",
   displayName: "String Input",
-  mixins: [valueMixin],
+  mixins: [valueMixin, formItemMixin],
   data() {
     return {};
   },

@@ -1,11 +1,11 @@
 <template>
-  <q-input
+  <q-select
     filled
-    v-model.number="val"
-    type="number"
+    v-model="val"
+    :options="schema.enum"
     :label="schema.title"
-    @input="validate"
     :hint="desc"
+    @input="validate"
     :error-message="errorMsg"
     :error="errorMsg !== undefined"
   />
@@ -16,14 +16,14 @@ import valueMixin from "./valueMixin";
 import formItemMixin from "./formItemMixin";
 
 export default {
-  name: "editor-control-number",
-  displayName: "Number Input",
+  name: "editor-control-select",
+  displayName: "Select Input",
   mixins: [valueMixin, formItemMixin],
   data() {
     return {};
   },
   isSuitable(schema) {
-    if (schema.type === "number" || schema.type === "integer") {
+    if (Array.isArray(schema.enum)) {
       return true;
     }
   }

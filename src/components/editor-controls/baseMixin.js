@@ -1,9 +1,11 @@
 import EditorControl from "./index";
-import { schemaValidate } from "../../libs/schemaValidator";
+import { compile } from "../../libs/schemaValidator";
 
 export default {
   data() {
-    return {};
+    return {
+      ajvValidate: null
+    };
   },
   props: ["schema", "json", "itemKey", "required", "path"],
   computed: {
@@ -19,6 +21,7 @@ export default {
         if (!val) {
           console.error(`invalid schema: ${val} with data ${this.json}`);
         }
+        this.ajvValidate = compile(val);
       },
       immediate: true
     }
@@ -30,9 +33,8 @@ export default {
     getJSON() {
       throw new Error("继承 Base 的组件必须实现 getJSON");
     },
-    async schemaValidate(json, itemKey = "$") {
-      console.log(this.schema, json, itemKey);
-      schemaValidate(this.schema, json, itemKey);
+    async schemaValidate(json, itemKey) {
+      this.ajvValidate(json, itemKey || this.schema.title);
     }
   },
   components: {

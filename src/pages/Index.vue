@@ -24,9 +24,15 @@
     </div>
 
     <div class="q-pa-md col full-height column no-wrap" style="overflow:scroll">
-      <div class=" col-auto row justify-between">
+      <div class="col-auto row justify-between">
         <div class="text-h4 q-mb-md">Form</div>
         <div class="q-mb-md">
+          <q-btn
+            class="q-ml-xs"
+            color="primary"
+            label="切换 JSON"
+            @click="forceRaw = !forceRaw"
+          />
           <q-btn class="q-ml-xs" color="primary" label="重载" @click="reload" />
           <q-btn
             class="q-ml-xs"
@@ -44,7 +50,7 @@
           :schema="parsed.schema"
           :json="parsed.data"
           :itemKey="parsed ? parsed.path[parsed.path.length - 1] : undefined"
-          :forceRaw="false"
+          :forceRaw="forceRaw"
         />
       </div>
     </div>
@@ -71,65 +77,107 @@ export default {
         $schema: "http://json-schema.org/draft-07/schema#",
         $id: "http://example.com/root.json",
         type: "object",
-        title: "The Root Schema",
-        required: ["ss"],
+        title: "台历配置",
+        required: ["editorType", "printConfig"],
         properties: {
-          ss: {
-            $id: "#/properties/ss",
-            type: "array",
-            title: "The Ss Schema",
-            items: {
-              $id: "#/properties/ss/items",
-              type: "object",
-              title: "The Items Schema",
-              required: [
-                "basePieces",
-                "baseThickness",
-                "piecesStep",
-                "thicknessStep"
-              ],
-              properties: {
-                isChecked: {
-                  $id: "#/properties/ss/items/properties/isChecked",
-                  type: "boolean",
-                  title: "检查",
-                  description: "是否已经检查",
-                  default: false
-                },
-                color: {
-                  $id: "#/properties/ss/items/properties/color",
-                  type: "string",
-                  title: "颜色",
-                  default: "#ffffff",
-                  controlName: "editor-control-color"
-                },
-                basePieces: {
-                  $id: "#/properties/ss/items/properties/basePieces",
-                  type: "integer",
-                  title: "The Basepieces Schema",
-                  default: 0,
-                  examples: [28]
-                },
-                baseThickness: {
-                  $id: "#/properties/ss/items/properties/baseThickness",
-                  type: "integer",
-                  title: "The Basethickness Schema",
-                  default: 0,
-                  examples: [9]
-                },
-                piecesStep: {
-                  $id: "#/properties/ss/items/properties/piecesStep",
-                  type: "integer",
-                  title: "The Piecesstep Schema",
-                  default: 0,
-                  examples: [4]
-                },
-                thicknessStep: {
-                  $id: "#/properties/ss/items/properties/thicknessStep",
-                  type: "number",
-                  title: "The Thicknessstep Schema",
-                  default: 0,
-                  examples: [0.5]
+          editorType: {
+            $id: "#/properties/editorType",
+            type: "string",
+            title: "编辑器类型",
+            default: "CALENDAR",
+            enum: ["CALENDAR", "PHOTO_BOOK"],
+            pattern: "^(.*)$"
+          },
+          printConfig: {
+            $id: "#/properties/printConfig",
+            type: "object",
+            title: "印刷生产配置",
+            required: ["targets"],
+            properties: {
+              targets: {
+                $id: "#/properties/printConfig/properties/targets",
+                type: "array",
+                title: "工件列表",
+                description: "所有打印工件列表",
+                items: {
+                  $id: "#/properties/printConfig/properties/targets/items",
+                  type: "object",
+                  title: "工件",
+                  description: "打印工件，原则上每一项应该对应一个打印步骤",
+                  required: ["name"],
+                  properties: {
+                    name: {
+                      $id:
+                        "#/properties/printConfig/properties/targets/items/properties/name",
+                      type: "string",
+                      title: "工件文件名",
+                      description: "导出工件的文件名",
+                      default: "日历-相片",
+                      pattern: "^(.*)$"
+                    },
+                    renderPath: {
+                      $id:
+                        "#/properties/printConfig/properties/targets/items/properties/renderPath",
+                      type: "string",
+                      title: "渲染路径",
+                      description: "使用 snapshot-render 时的路径",
+                      default: "/calendar/photo",
+                      pattern: "^(.*)$"
+                    },
+                    fileType: {
+                      $id:
+                        "#/properties/printConfig/properties/targets/items/properties/fileType",
+                      type: "string",
+                      title: "工件格式",
+                      description: "导出打印产出物的文件格式",
+                      default: "pdf",
+                      enum: ["pdf", "zip"]
+                    },
+                    bleed: {
+                      $id:
+                        "#/properties/printConfig/properties/targets/items/properties/bleed",
+                      type: "object",
+                      title: "血线定义",
+                      default: null,
+                      required: ["total", "layoutBleed", "useLayoutBleed"],
+                      properties: {
+                        total: {
+                          $id:
+                            "#/properties/printConfig/properties/targets/items/properties/bleed/properties/total",
+                          type: "integer",
+                          title: " 总血线宽度",
+                          description: "单位：毫米",
+                          default: 3
+                        },
+                        layoutBleed: {
+                          $id:
+                            "#/properties/printConfig/properties/targets/items/properties/bleed/properties/layoutBleed",
+                          type: "integer",
+                          title: "设计稿血线宽度",
+                          description: "单位：毫米",
+                          default: 3,
+                          minimum: 0.0,
+                          maximum: 10.0
+                        },
+                        useLayoutBleed: {
+                          $id:
+                            "#/properties/printConfig/properties/targets/items/properties/bleed/properties/useLayoutBleed",
+                          type: "boolean",
+                          title: "使用设计稿血线",
+                          description:
+                            "是否使用设计稿血线 如果不使用则会吃掉使用空白填充",
+                          default: false
+                        }
+                      }
+                    },
+                    url: {
+                      $id:
+                        "#/properties/printConfig/properties/targets/items/properties/bleed/properties/url",
+                      type: "string",
+                      title: "下载路径",
+                      format: "uri"
+                    }
+                  }
                 }
               }
             }
@@ -138,25 +186,31 @@ export default {
       },
       schemaCode: "",
       data: {
-        ss: [
-          {
-            basePieces: 28,
-            baseThickness: 9,
-            piecesStep: 4,
-            thicknessStep: 0.5,
-            color: "#123123"
-          },
-          {
-            basePieces: 28,
-            baseThickness: 9,
-            piecesStep: 4,
-            specifiedValue: "asd"
-          }
-        ]
+        editorType: "CALENDAR",
+        printConfig: {
+          targets: [
+            {
+              name: "日历-相片",
+              renderPath: "/calendar/photo",
+              fileType: "pdf",
+              bleed: {
+                total: 0,
+                layoutBleed: 3,
+                useLayoutBleed: false
+              }
+            },
+            {
+              name: "日历-功能页",
+              url:
+                "https://app-cdn.niepce.cloud/static/%E6%97%A5%E5%8E%86-21%2A15-%E5%8A%9F%E8%83%BD%E9%A1%B5.pdf"
+            }
+          ]
+        }
       },
       dataCode: "",
       parsed: {},
-      uniqKey: 1
+      uniqKey: 1,
+      forceRaw: false
     };
   },
   watch: {
@@ -186,7 +240,7 @@ export default {
         });
         return true;
       } catch (error) {
-        console.log(error);
+        console.error(error);
         this.$q.notify({
           color: "red",
           message: error.message,
