@@ -79,12 +79,12 @@ module.exports = function(ctx) {
           options: {
             formatter: require("eslint").CLIEngine.getFormatter("stylish")
           }
-        }),
-          cfg.plugins.push(
-            new MonacoWebpackPlugin({
-              languages: ["json"]
-            })
-          );
+        });
+        cfg.plugins.push(
+          new MonacoWebpackPlugin({
+            languages: ["json"]
+          })
+        );
       }
     },
 
